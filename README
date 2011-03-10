@@ -4,13 +4,10 @@ HOMEPAGE
 
 http://dowebserverswork.yellosoft.us/
 
-INSTALL
+REQUIREMENTS
 
- 1. Run git clone https://github.com/mcandre/dowebserverswork.git
- 2. Edit dowebserverswork.apache
- 3. Modify the IP addresses and both ServerNames
- 4. Modify DocumentRoot to use this directory.
- 5. Run sudo cp dowebserverswork.apache /etc/apache2/sites-available/
- 6. Run sudo ln -s /etc/apache2/sites-available/dowebserverswork.apache /etc/apache2/sites-enabled/dowebserverswork.apache
- 7. Run sudo apachectl restart
- 8. Open http://dowebserverswork.localhost/
+ - A web browser
+
+SETUP
+
+ 1. Open dowebserverswork.html

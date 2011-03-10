@@ -1,0 +1,16 @@
+ServerName 127.0.0.1
+
+UseCanonicalName On
+ProxyRequests Off
+ProxyVia Off
+
+<VirtualHost 127.0.0.1:80>
+    ServerName dowebserverswork.localhost
+    DocumentRoot /srv/d_hactar/usr/src/dowebserverswork
+
+	<Directory />
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		allow from all
+	</Directory>
+</VirtualHost>

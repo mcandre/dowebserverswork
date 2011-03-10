@@ -1,23 +1,90 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Do Web Servers Work?</title>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<link rel="favorites icon" href="/favicon.ico" />
+<title>Do Web Servers Work?</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="favorites icon" href="/favicon.ico" />
+<style type="text/css">
+body { text-align: center; }
+a, a:visited { color: black; }
+table { margin-left: auto; margin-right: auto; text-align: left; }
+th { padding: 1em; font-size: 120%; }
+td { padding: 0 1em 0 1em; font-size: 120%; font-family: monospace; }
+</style>
 </head>
-<body style="text-align: center;">
+<body onload="refresh()">
 <p><a href="https://github.com/mcandre/dowebserverswork">GitHub</a></p>
 <h1>Do Web Servers Work?</h1>
-<table style="margin-left: auto; margin-right: auto; text-align: left;">
-<tr>
-<th>PHP</th><td>...</td>
-</tr>
-<tr>
-<th>Hunchentoot</th><td>...</td>
-</tr>
-<tr>
-<th>Happstack</th><td>...</td>
-</tr>
+<table>
 </table>
+<script type="text/javascript" src="/jquery-1.5.1.min.js"></script>
+<script type="text/javascript" src="/jquery.xdomainajax.js"></script>
+<script type="text/javascript">
+var servers = [
+	["PHP", "http://doesphpwork.yellosoft.us/", "http://php.net/"],
+	["Hunchentoot", "http://doeshunchentootwork.yellosoft.us/", "http://weitz.de/hunchentoot/"],
+	["Happstack", "http://doeshappstackwork.yellosoft.us/", "http://happstack.com/"],
+	["Rails", "http://doesrailswork.yellosoft.us/", "http://rubyonrails.org/"]
+];
+
+for (i in servers) {
+	var server=servers[i];
+	var type = server[0];
+	var url = server[1];
+	var homepage = server[2];
+
+	$("table").html($("table").html() + "<tr><th><a href=\"" + homepage + "\">" + type + "</a></th><td id=\"" + type + "\"></td></tr>");
+}
+
+function showSuccess(server) {
+	var type = server[0];
+	var url = server[1];
+
+	$("#" + server).html("<a href=\"" + url + "\">Online</a>");
+	$("#" + server).attr("style", "background-color: green");
+}
+
+function showError(server) {
+	var type = server[0];
+	var url = server[1];
+
+	$("#" + server).html("Offline");
+	$("#" + server).attr("style", "background-color: red");
+}
+
+function refresh() {
+	for (i in servers) {
+		var server = servers[i];
+		var type = server[0];
+		var url = server[1];
+
+		$("#" + type).html("Loading");
+		$("#" + type).attr("style", "background-color: yellow");
+
+		check(server);
+	}
+}
+
+function check(server) {
+	var type = server[0];
+	var url = server[1];
+
+	$.ajax({
+		type: "GET",
+		url: url,
+		cache: false,
+		complete: function(response) {
+			var youbetcha = response.responseText.indexOf("You betcha!");
+
+				if (youbetcha != -1) {
+					showSuccess(server);
+				}
+				else {
+					showError(server);
+				}
+		}
+	});
+}
+</script>
 </body>
 </html>

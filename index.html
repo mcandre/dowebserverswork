@@ -71,19 +71,26 @@ function check(server) {
 
 	$.ajax({
 		type: "GET",
+		timeout: 3000, // ms
 		url: url,
 		cache: false,
 		complete: function(response) {
 			var youbetcha = response.responseText.indexOf("You betcha!");
 
-				if (youbetcha != -1) {
-					showSuccess(server);
-				}
-				else {
-					showError(server);
-				}
+			if (youbetcha != -1) {
+				showSuccess(server);
+			}
+			else {
+				showError(server);
+			}
 		}
 	});
+
+	setTimeout(function () {
+		if ($("#" + type).html() == "Loading") {
+			showError(server);
+		}
+	}, 4000);
 }
 </script>
 </body>

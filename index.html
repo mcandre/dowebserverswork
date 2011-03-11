@@ -66,13 +66,15 @@ function refresh() {
 	}
 }
 
+var timeout = 6000; // ms
+
 function check(server) {
 	var type = server[0];
 	var url = server[1];
 
 	$.ajax({
 		type: "GET",
-		timeout: 3000, // ms
+		timeout: timeout,
 		url: url,
 		cache: false,
 		complete: function(response) {
@@ -91,7 +93,7 @@ function check(server) {
 		if ($("#" + type).html() == "Loading") {
 			showError(server);
 		}
-	}, 4000);
+	}, timeout + 1000);
 }
 </script>
 </body>

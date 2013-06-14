@@ -21,79 +21,79 @@ td { padding: 0 1em 0 1em; font-size: 120%; font-family: monospace; }
 <script type="text/javascript" src="/jquery.xdomainajax.min.js"></script>
 <script type="text/javascript">
 var servers = [
-	["Happstack", "http://doeshappstackwork.yellosoft.us/", "http://happstack.com/"],
-	["Hunchentoot", "http://doeshunchentootwork.yellosoft.us/", "http://weitz.de/hunchentoot/"],
-	["Node", "http://doesnodework.yellosoft.us/", "http://nodejs.org/"],
-	["PHP", "http://doesphpwork.yellosoft.us/", "http://php.net/"],
-	["Rails", "http://floating-galaxy-579.heroku.com/", "http://rubyonrails.org/"]
+  ["Happstack", "http://doeshappstackwork.yellosoft.us/", "http://happstack.com/"],
+  ["Hunchentoot", "http://doeshunchentootwork.yellosoft.us/", "http://weitz.de/hunchentoot/"],
+  ["Node", "http://doesnodework.yellosoft.us/", "http://nodejs.org/"],
+  ["PHP", "http://doesphpwork.yellosoft.us/", "http://php.net/"],
+  ["Rails", "http://doesrailswork.heroku.com/", "http://rubyonrails.org/"]
 ];
 
 for (i in servers) {
-	var server=servers[i];
-	var type = server[0];
-	var url = server[1];
-	var homepage = server[2];
+  var server=servers[i];
+  var type = server[0];
+  var url = server[1];
+  var homepage = server[2];
 
-	$("table").html($("table").html() + "<tr><th><a href=\"" + homepage + "\">" + type + "</a></th><td id=\"" + type + "\"></td></tr>");
+  $("table").html($("table").html() + "<tr><th><a href=\"" + homepage + "\">" + type + "</a></th><td id=\"" + type + "\"></td></tr>");
 }
 
 function showSuccess(server) {
-	var type = server[0];
-	var url = server[1];
+  var type = server[0];
+  var url = server[1];
 
-	$("#" + server).html("<a href=\"" + url + "\">Online</a>");
-	$("#" + server).attr("style", "background-color: green");
+  $("#" + server).html("<a href=\"" + url + "\">Online</a>");
+  $("#" + server).attr("style", "background-color: green");
 }
 
 function showError(server) {
-	var type = server[0];
-	var url = server[1];
+  var type = server[0];
+  var url = server[1];
 
-	$("#" + server).html("Offline");
-	$("#" + server).attr("style", "background-color: red");
+  $("#" + server).html("Offline");
+  $("#" + server).attr("style", "background-color: red");
 }
 
 function refresh() {
-	for (i in servers) {
-		var server = servers[i];
-		var type = server[0];
-		var url = server[1];
+  for (i in servers) {
+    var server = servers[i];
+    var type = server[0];
+    var url = server[1];
 
-		$("#" + type).html("Loading");
-		$("#" + type).attr("style", "background-color: yellow");
+    $("#" + type).html("Loading");
+    $("#" + type).attr("style", "background-color: yellow");
 
-		check(server);
-	}
+    check(server);
+  }
 }
 
 var timeout = 6000; // ms
 
 function check(server) {
-	var type = server[0];
-	var url = server[1];
+  var type = server[0];
+  var url = server[1];
 
-	$.ajax({
-		type: "GET",
-		timeout: timeout,
-		url: url,
-		cache: false,
-		complete: function(response) {
-			var youbetcha = response.responseText.indexOf("You betcha!");
+  $.ajax({
+    type: "GET",
+    timeout: timeout,
+    url: url,
+    cache: false,
+    complete: function(response) {
+      var youbetcha = response.responseText.indexOf("You betcha!");
 
-			if (youbetcha != -1) {
-				showSuccess(server);
-			}
-			else {
-				showError(server);
-			}
-		}
-	});
+      if (youbetcha != -1) {
+        showSuccess(server);
+      }
+      else {
+        showError(server);
+      }
+    }
+  });
 
-	setTimeout(function () {
-		if ($("#" + type).html() == "Loading") {
-			showError(server);
-		}
-	}, timeout + 1000);
+  setTimeout(function () {
+    if ($("#" + type).html() == "Loading") {
+      showError(server);
+    }
+  }, timeout + 1000);
 }
 </script>
 </body>
